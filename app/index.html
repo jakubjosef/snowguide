@@ -1,29 +1,71 @@
 <!doctype html>
-<html lang="en" ng-app="myApp">
-<head>
-  <meta charset="utf-8">
-  <title>My AngularJS App</title>
-  <link rel="stylesheet" href="css/app.css"/>
-</head>
-<body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
+<html lang="cs" data-ng-app="snowguide">
+    <head>
+        <meta charset="utf-8">
+        <title>Snowguide - průvodce pro lyžaře a snowboardisty</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Place your description here" />
+        <meta name="keywords" content="put, your, keyword, here" />
+        <meta name="author" content="Jakub Josef" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cantarell&subset=latin-ext">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!--<link rel="stylesheet" href="css/bootstrap-theme.min.css">-->
+        <link href="lib/angular/ng-table/ng-table.css" rel="stylesheet" type="text/css" />
+        <link href="lib/flowplayer/player.css" rel="stylesheet" type="text/css" />
+        <link href="lib/chosen/chosen.min.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body data-ng-controller="AppCtrl">
+        <div id="main">
+            <!-- HEADER -->
+            <div id="header">
+                <div class="logo"><a href="#"><img src="img/logo.png" alt="" /></a></div>
+                <div class="banner-list">
+                    <ul>
+                        <li class="style3"><a href="#/sport/ski"><span><strong>Lyže</strong>Podívejte se jaké sjezdovky mají kde otevřeny</span></a></li>
+                        <li class="style2"><a href="#/sport/snb"><span><strong>Snowboard</strong>Prozkoumejte snowparky, u-rampy nebo další atrakce pro vyznavače snowboardingu</span></a></li>
+                        <li class="style1"><a href="#/sport/ccski"><span><strong>Běžky</strong>Zjistěte kde všude vedou denně upravované běžkařské trasy</span></a></li>
+                    </ul>
+                </div>
+                <div class="site-nav">
+                    <ul>
+                        <li data-ng-repeat="page in pages" class="style{{page.style}}"><a href="#/{{page.url}}" active-link="act"><span>{{page.name}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- CONTENT -->
+            <div id="content"><div class="inner_copy"></div>
+                <div class="wrapper" data-ng-view>
+                </div>
+                
+            </div>
+            <!-- FOOTER -->
+            <div id="footer">
+                <div class="indent">
+                    <div class="fleft">
+                        Snowguide v<span data-app-version></span><br/>
+                        Copyright &copy; 2014 Jakub Josef</div>
+                </div>
+            </div>
+        </div>
 
-  <div ng-view></div>
-
-  <div>Angular seed app: v<span app-version></span></div>
-
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-  -->
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular/angular-route.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/directives.js"></script>
-</body>
+        <!-- In production use:
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        -->
+        <script src="lib/jquery.js"></script>
+        <script src="lib/flowplayer/flowplayer.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDiDZ8Al2c2mzMdbSLli9DlJIYaEf-Tx3E"></script>
+        <script type='text/javascript' src="lib/chosen/chosen.jquery.min.js"></script>
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-route.js"></script>
+        <script src="lib/angular/angular-resource.js"></script>
+        <script src="lib/angular/ng-table/ng-table.js"></script>
+        <script src="lib/spin/spin.min.js"></script>
+        <script src="lib/spin/angular-spinner.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+    </body>
 </html>

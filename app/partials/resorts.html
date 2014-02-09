@@ -1,0 +1,31 @@
+<h4 class="text-center">Přehled zimních středisek</h4>
+<div id="ResortsTable" data-ng-init="initResortsTable()" data-loading-container="tableParams.settings().$loading" data-us-spinner data-spinner-key="spinner-1" data-spinner-start-active="1">
+     	<table data-ng-table="tableParams" data-show-filter="true" class="table">
+            <tbody data-ng-repeat="group in $groups">
+                <tr class="ng-table-group">
+                    <td colspan="{{$columns.length}}">
+                        <a href="" data-ng-click="group.$hideRows = !group.$hideRows">
+                            <span class="glyphicon" data-ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                            <strong>{{ group.value }}</strong>
+                        </a>
+                    </td>
+                </tr>
+                <tr data-ng-hide="group.$hideRows" data-ng-repeat="resort in group.data">
+			<td data-title="'Název'" data-sortable="'name'" data-filter="{ 'name': 'text' }">
+                            <a href="#/resort/{{resort._id}}">{{resort.name}}</a>
+			</td>
+			<td data-title="'Výška sněhu'" data-sortable="'snow'" class="text-center">
+				{{resort.snow}}cm
+			</td>
+                        <td data-title="'Délka sjezdovek'" data-sortable="'slopes'" class="text-center">
+				{{resort.slopes}} km
+			</td>
+                        <td data-title="'Stav'" data-sortable="'state'" class="text-center" data-ng-class="{openResort:resort.state=='open',closedResort:resort.state=='closed'}">
+
+                            <span data-ng-show="{{resort.state=='open'}}">Otevřeno</span>
+                            <span data-ng-show="{{resort.state=='closed'}}">Zavřeno</span>
+			</td>
+		</tr>
+            </tbody>
+	</table>
+</div>

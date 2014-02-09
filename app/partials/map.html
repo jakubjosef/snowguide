@@ -1,0 +1,10 @@
+<div>
+    Střediska: &nbsp;<select multiple data-placeholder="Nejoblíbenější" class="chosen-select-no-single" style="width:350px;" tabindex="2" data-ng-model="selectedMountain">
+        <option></option>
+        <option data-ng-repeat="mountain in mountains" value="{{mountain._id}}">{{mountain.name}}</option>
+    </select>
+</div>
+<div data-loading-container="mapLoading" data-us-spinner data-spinner-key="spinner-1" data-spinner-start-active="1">
+    <div id="MapBar" data-ng-init="loadMap('MapBar')">
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<h3 class="text-center">O nás</h3>
+<p class="text-center">
+    {{'Snowguide - průvodce pro lyžaře a snowboardisty v%VERSION%'|interpolate}}<br/>
+    Poskytovatel dat: Sitour s.r.o
+</p><br/><br/>
+<div class='w400 container box1'>
+<h4 class='normalcase text-center'>Chcete přidat váš areál?</h4><br/>
+    <form id="AddResortForm" role="form" action="" data-ng-submit="requestResort()">
+        <div class="form-group">
+                <label for="ResortNameInput">Název střediska:</label>
+                <input id="ResortNameInput" required class="form-control" type="text" name="resortName" data-ng-model="resortRequest.name" value=""/>
+        </div>
+        <div class="form-group">
+                <label for="ResortPlaceInput">Umístění: </label>
+                <input id="ResortPlaceInput" required class="form-control" type="text" name="resortPlace" data-ng-model="resortRequest.place" value=""/>
+        </div>
+        <div class="form-group">
+                <label for="ResortContactInput">Kontakt (email): </label>
+                <input id="ResortContactInput" required class="form-control" type="email" name="resortContact" data-ng-model="resortRequest.contact" value=""/>
+        </div>
+        <input class="btn btn-default btn-lg btn-block" type='submit' value="Odeslat žádost"/><br/>
+    </form>
+</div>
