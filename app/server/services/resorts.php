@@ -8,20 +8,30 @@ class ResortsService extends BaseService{
 	}
 	public function findAll($params){
 		$resorts=$this->db->resorts;
+                $queryParams=array();
                 if(isset($params["filter"]) && is_array($params["filter"])){
                     //filtr
                     $filterNames=array_keys($params["filter"]);
-                    $cursor=$resorts->find(array($filterNames[0] => array('$regex' => urldecode($params["filter"][$filterNames[0]]),'$options' => 'i')));
-                }elseif(isset($params["favorite"])){
-                    //oblibena strediska
-                    $cursor=$resorts->find(array("_id"=>array('$lte'=>10)));
-                }elseif(isset($params["mountains"])){
-                    //podle pohori
-                    $cursor=$resorts->find(array("mountains"=>(int)$params["mountains"]));
-                }else{
-                    //vsechny
-                    $cursor=$resorts->find();
+                    $queryParams[$filterNames[0]] = array('$regex' => urldecode($params["filter"][$filterNames[0]]),'$options' => 'i');
                 }
+                if(isset($params["favorite"])){
+                    //oblibena strediska
+                    $queryParams["_id"]=array('$lte'=>10);
+                }
+                if(isset($params["mountains"])){
+                    //podle pohori
+                    $mountainsArray=  array_map('intval',  array_filter(json_decode($params["mountains"]), 'is_numeric'));
+                    $queryParams["mountains"]=array('$in' => $mountainsArray);
+                }
+                if(isset($params["artificialSnow"])){
+                    //umele zasnezovani
+                    $queryParams["artificialSnow"]=$params["artificialSnow"];
+                }
+                if(isset($params["nightSkiing"])){
+                    //umele zasnezovani
+                    $queryParams["nightSkiing"]=$params["nightSkiing"];
+                }
+                $cursor=$resorts->find($queryParams);
                 if(isset($params["sorting"]) && is_array($params["sorting"])){
                     $sortNames=  array_keys($params["sorting"]);
                     $cursor->sort(array($sortNames[0] => ($params["sorting"][$sortNames[0]]=="asc")?-1:1));

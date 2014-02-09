@@ -102,19 +102,32 @@ angular.module('snowguide.controllers', []).
   	//sport
   }])
   .controller('MapCtrl',['$scope','$timeout','Resorts','Mountains','usSpinnerService',function($scope,$timeout,Resorts,Mountains,usSpinnerService){
+       var mapBarID="MapBar",
+            loadMap=function(mapBarID,resortParams){
+                 var resortParamsDefaults={
+                     mountains:[],
+                     artificialSnow:true,
+                     nightSkiing:true
+                 };
+                 angular.extend(resortParams,resortParamsDefaults);
+                 resortParams.mountains=JSON.stringify(resortParams.mountains);
+                 usSpinnerService.spin("spinner-1");
+                    $scope.mapLoading=true;
+                    Resorts.byMountains(resortParams,function(data){
+                         $scope.map=$scope.initMap(mapBarID,cleanData(data));
+                         usSpinnerService.stop("spinner-1");
+                         $scope.mapLoading=false;
+                     });
+             };
        $scope.mapLoading=true;
+       $scope.artificialSnow=true;
+       $scope.nightSkiing=true;
        $scope.$watch('selectedMountain',function(newVal,oldVal){
            if(newVal!==oldVal){
-               usSpinnerService.spin("spinner-1");
-               $scope.mapLoading=true;
-                Resorts.query({mountains:newVal},function(data){
-                    $scope.map=$scope.initMap("MapBar",cleanData(data));
-                    usSpinnerService.stop("spinner-1");
-                    $scope.mapLoading=false;
-                });
+               loadMap(mapBarID,{mountains:newVal,artificialSnow:$scope.artificialSnow,nightSkiing:$scope.nightSkiing});
            }
         });
-        $scope.loadMap=function(mapBarID){
+        $scope.firstLoadMap=function(){
             Resorts.favorite(function(resorts){
                 $scope.map=$scope.initMap(mapBarID,cleanData(resorts));
                 usSpinnerService.stop("spinner-1");
