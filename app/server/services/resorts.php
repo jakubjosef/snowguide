@@ -23,13 +23,13 @@ class ResortsService extends BaseService{
                     $mountainsArray=  array_map('intval',  array_filter(json_decode($params["mountains"]), 'is_numeric'));
                     $queryParams["mountains"]=array('$in' => $mountainsArray);
                 }
-                if(isset($params["artificialSnow"])){
+                if(isset($params["artificialSnow"]) && $params["artificialSnow"]==="true"){
                     //umele zasnezovani
-                    $queryParams["artificialSnow"]=$params["artificialSnow"];
+                    $queryParams["artificialSnow"]=true;
                 }
-                if(isset($params["nightSkiing"])){
+                if(isset($params["nightSkiing"]) && $params["nightSkiing"]==="true"){
                     //umele zasnezovani
-                    $queryParams["nightSkiing"]=$params["nightSkiing"];
+                    $queryParams["nightSkiing"]=true;
                 }
                 $cursor=$resorts->find($queryParams);
                 if(isset($params["sorting"]) && is_array($params["sorting"])){

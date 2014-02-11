@@ -1,12 +1,15 @@
+pohori: {{selectedMountains}}
 <div>
-    Vyberte pohoří: &nbsp;<select multiple data-placeholder="Nejoblíbenější střediska" class="chosen-select-no-single" style="width:350px;" tabindex="2" data-ng-model="selectedMountain">
+    Vyberte pohoří: &nbsp;<select id="ResortsMapSelect" multiple data-placeholder="Nejoblíbenější střediska" class="chosen-select-no-single" style="width:350px;" tabindex="2" data-ng-model="selectedMountains">
         <option></option>
         <option data-ng-repeat="mountain in mountains" value="{{mountain._id}}">{{mountain.name}}</option>
     </select>
-    Umělé zasněžování
-    <input type="checkbox" name="artificialSnow" data-ng-model="artificialSnow" value="1"/>
-    Večerní lyžování
-    <input type="checkbox" name="nightSkiing" data-ng-model="nightSkiing" value="1"/>
+    <span data-ng-show="showCheckboxes">
+        Umělé zasněžování
+        <input type="checkbox" name="artificialSnow" data-ng-model="artificialSnow" value="1"/>
+        Večerní lyžování
+        <input type="checkbox" name="nightSkiing" data-ng-model="nightSkiing" value="1"/>
+    </span>
 </div>
 <div data-loading-container="mapLoading" data-us-spinner data-spinner-key="spinner-1" data-spinner-start-active="1">
     <div id="MapBar" data-ng-init="firstLoadMap()">

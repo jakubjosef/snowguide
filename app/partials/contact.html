@@ -1,11 +1,12 @@
 <h3 class="text-center">O nás</h3>
 <p class="text-center">
     {{'Snowguide - průvodce pro lyžaře a snowboardisty v%VERSION%'|interpolate}}<br/>
+    Jakub Josef<br/>
     Poskytovatel dat: Sitour s.r.o
 </p><br/><br/>
 <div class='w400 container box1'>
 <h4 class='normalcase text-center'>Chcete přidat váš areál?</h4><br/>
-    <form id="AddResortForm" role="form" action="" data-ng-submit="requestResort()">
+    <form id="AddResortForm" role="form" action="" data-ng-submit="requestResort()" data-ng-hide="resortRequested">
         <div class="form-group">
                 <label for="ResortNameInput">Název střediska:</label>
                 <input id="ResortNameInput" required class="form-control" type="text" name="resortName" data-ng-model="resortRequest.name" value=""/>
@@ -20,4 +21,7 @@
         </div>
         <input class="btn btn-default btn-lg btn-block" type='submit' value="Odeslat žádost"/><br/>
     </form>
+    <div data-ng-show="resortRequested" class="text-center">
+        <p>Vaše žádost byla odeslána. Děkujeme<br/>O dalším postupu vás budeme informovat emailem</p>
+    </div>
 </div>

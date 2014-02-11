@@ -39,6 +39,23 @@
                     <span data-ng-show="resort.state=='closed'" class="red">Zavřeno</span>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Umělé zasněžování
+                </td>
+                <td>
+                    <span class="glyphicon" data-ng-class="{'glyphicon-ok':resort.artificialSnow,'glyphicon-remove':!resort.artificialSnow}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Večerní lyžování
+                </td>
+                <td>
+                    <span class="glyphicon" data-ng-class="{'glyphicon-ok':resort.nightSkiing,'glyphicon-remove':!resort.nightSkiing}"></span>
+                </td>
+            </tr>
+
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr>
                 <td><a class="lightboxLauncher" href="#" data-ng-click="fillLightbox('map')">Mapa Areálu</a></td>

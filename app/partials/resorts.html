@@ -20,6 +20,12 @@
                         <td data-title="'Délka sjezdovek'" data-sortable="'slopes'" class="text-center">
 				{{resort.slopes}} km
 			</td>
+                        <td data-title="'Umělé zasněžování'" class="text-center">
+                            <span class="glyphicon" data-ng-class="{'glyphicon-ok':resort.artificialSnow,'glyphicon-remove':!resort.artificialSnow}"></span>
+                        </td>
+                        <td data-title="'Večerní lyžování'" class="text-center">
+                            <span class="glyphicon" data-ng-class="{'glyphicon-ok':resort.nightSkiing,'glyphicon-remove':!resort.nightSkiing}"></span>
+                        </td>
                         <td data-title="'Stav'" data-sortable="'state'" class="text-center" data-ng-class="{openResort:resort.state=='open',closedResort:resort.state=='closed'}">
 
                             <span data-ng-show="{{resort.state=='open'}}">Otevřeno</span>
