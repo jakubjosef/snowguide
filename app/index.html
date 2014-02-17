@@ -61,6 +61,9 @@ License: MIT
     </script>
     </head>
     <body data-ng-controller="AppCtrl">
+        <div style="position: absolute;top:50px;left:20px;" data-ng-show="noDBConnection">
+            <h4 class="red">Chyba připojení k databázi!</h4>
+        </div>
         <div id="main">
             <!-- HEADER -->
             <div id="header">

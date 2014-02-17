@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('snowguide.controllers', []).
-  controller('AppCtrl',['$scope',function($scope){
+  controller('AppCtrl',['$scope','$rootScope','$http','$location','$anchorScroll',function($scope,$rootScope,$http,$location,$anchorScroll){
   		$scope.pages=[
   			{url:"home",name:"Domů",style:1},
   			{url:"sport",name:"Naše tipy",style:2},
@@ -38,13 +38,15 @@ angular.module('snowguide.controllers', []).
                     if(marker.hasOwnProperty("lat") && marker.hasOwnProperty("lng")){
                         var position=new google.maps.LatLng(marker.lat,marker.lng),
                             mapMarker = new google.maps.Marker({map:map,position:position}),
-                            textState=(marker.state==="open")?"<span class=\"green\">Otevřeno</span>":"<span class=\"red\">Zavřeno</span>",
                             //vytvorime telo infowindow strediska
+                            textState=(marker.state==="open")?"<h5 class=\"green\">Otevřeno</h5>":"<h5 class=\"red\">Zavřeno</h5>",
+                            addionalServices=(marker.artificialSnow)?(marker.nightSkiing)?"Umělé zasněžování<br/>Večerní lyžování":"Umělé zasněžování":(marker.nightSkiing)?"Večerní lyžování":"",
                             infoContent="<div id=\"MapInfoWindow\">"
                                 +"<a class=\"strong\" href=\"#/resort/"+marker._id+"\"><h4>"+marker.name+"</h4></a>"
                                 +"<i>"+marker.mountains+"</i><br/>"
                                 +marker.snow+"cm sněhu<br/>"
                                 +textState
+                                +addionalServices
                                 +"</div>",
                             infowindow = new google.maps.InfoWindow({position:position,content:infoContent});
                         google.maps.event.addListener(mapMarker,'click',function(){
@@ -54,7 +56,15 @@ angular.module('snowguide.controllers', []).
                 });
                 return map;
                 };
+                $scope.scrollTo=function(anchor){
+                   anchor=anchor||"";
+                   $location.hash(anchor);
+                   $anchorScroll();
+                };
 
+                $http.get('/api/test').error(function(){
+                   $scope.noDBConnection=true;
+                });
   }])
   .controller('HomeCtrl', ['$scope','Resorts',function($scope,Resorts) {
   	//home
@@ -97,9 +107,36 @@ angular.module('snowguide.controllers', []).
     $scope.fillLightbox= function(type){
          $scope.lightboxBody="partials/lightboxes/"+type+".html";
     };
+    $scope.removeProtocolFromURL=function(url){
+        return url.replace(/^http:\/\//, '');
+    };
   }])
-  .controller('SportCtrl', ['$scope','$routeParams', function($scope,$routeParams) {
-  	//sport
+  .controller('SportCtrl', ['$scope','$routeParams','Resorts', function($scope,$routeParams,Resorts) {
+
+       $scope.initFavoriteResorts=function(){
+            if(typeof $routeParams.sportType === "string"){
+                 $scope.scrollTo($routeParams.sportType);
+
+             }
+             Resorts.favorite({favoriteSkiResorts:true},function(data){
+                $scope.favoriteSkiResorts=cleanData(data);
+             });
+             Resorts.favorite({favoriteSkiRaces:true},function(data){
+                $scope.favoriteSkiRaces=cleanData(data);
+             });
+             Resorts.favorite({favoriteSnbResorts:true},function(data){
+                $scope.favoriteSnbResorts=cleanData(data);
+             });
+             Resorts.favorite({favoriteSnbParks:true},function(data){
+                $scope.favoriteSnbParks=cleanData(data);
+             });
+             Resorts.favorite({favoriteCCSkiResorts:true},function(data){
+                $scope.favoriteCCSkiResorts=cleanData(data);
+             });
+             Resorts.favorite({favoriteCCSkiKidResorts:true},function(data){
+                $scope.favoriteCCSkiKidResorts=cleanData(data);
+             });
+       };
   }])
   .controller('MapCtrl',['$scope','$timeout','Resorts','Mountains','usSpinnerService',function($scope,$timeout,Resorts,Mountains,usSpinnerService){
        var mapBarID="MapBar",

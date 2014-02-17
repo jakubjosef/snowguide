@@ -1,5 +1,4 @@
 <?php
-require "base.php";
 class ResortsService extends BaseService{
 	public function find($id){
 		$resorts=$this->db->resorts;
@@ -14,9 +13,31 @@ class ResortsService extends BaseService{
                     $filterNames=array_keys($params["filter"]);
                     $queryParams[$filterNames[0]] = array('$regex' => urldecode($params["filter"][$filterNames[0]]),'$options' => 'i');
                 }
-                if(isset($params["favorite"])){
-                    //oblibena strediska
-                    $queryParams["_id"]=array('$lte'=>10);
+                if(isset($params["favorite"]) && $params["favorite"]){
+                    if(isset($params["favoriteSkiResorts"]) && $params["favoriteSkiResorts"]){
+                        //oblibena strediska lyzaru
+                        $queryParams["favoriteSkiResort"]=array('$exists'=>true);
+                    }elseif(isset($params["favoriteSkiRaces"]) && $params["favoriteSkiRaces"]){
+                        //oblibena strediska s lyzarskymi zavody
+                        $queryParams["favoriteSkiRace"]=array('$exists'=>true);
+                    }elseif(isset($params["favoriteSnbResorts"]) && $params["favoriteSnbResorts"]){
+                        //oblibena strediska snowboardistu
+                        $queryParams["favoriteSnbResort"]=array('$exists'=>true);
+                    }elseif(isset($params["favoriteSnbParks"]) && $params["favoriteSnbParks"]){
+                        //oblibena strediska snowboardistu
+                        $queryParams["favoriteSnbPark"]=array('$exists'=>true);
+                    }elseif(isset($params["favoriteCCSkiResorts"]) && $params["favoriteCCSkiResorts"]){
+                        //oblibene bezkarske trasy
+                        $ccSkiResorts=true;
+                        $queryParams["favoriteCCSkiResort"]=array('$exists'=>true);
+                    }elseif(isset($params["favoriteCCSkiKidResorts"]) && $params["favoriteCCSkiKidResorts"]){
+                        //oblibene bezkarske trasy pro deti
+                        $ccSkiResorts=true;
+                        $queryParams["favoriteCCSkiKidResort"]=array('$exists'=>true);
+                    }else{
+                        // obecne oblibena strediska
+                        $queryParams["favorite"]=array('$exists'=>true);
+                    }
                 }
                 if(isset($params["mountains"])){
                     //podle pohori
@@ -30,6 +51,10 @@ class ResortsService extends BaseService{
                 if(isset($params["nightSkiing"]) && $params["nightSkiing"]==="true"){
                     //umele zasnezovani
                     $queryParams["nightSkiing"]=true;
+                }
+                //vy vychozim stavu nechceme ziskavat bezecke trasy
+                if(!isset($ccSkiResorts)){
+                    $queryParams["ccresort"]=array('$exists'=>false);
                 }
                 $cursor=$resorts->find($queryParams);
                 if(isset($params["sorting"]) && is_array($params["sorting"])){

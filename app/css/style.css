@@ -237,7 +237,7 @@ div#LightboxCloser{
     margin-right:-15px;
     height:32px;
     width:32px;
-    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gIFDRAqMF88eQAAAWNJREFUWMPtlstKAzEUhtNOl9UnsDd0quK0btTqaxahi+oDCL6Ky4LijepotUIvT/C5iSiahJNOBjfzw6yS/5Lk5EyUKlDAAKAM9IEroJVBpwNcA2dAJCVVgAu+8QbsrWB+BMx/6FwCFQnxlL94BmIP8y7wYdDpS8h3mPEC7Aj4+xZzgBtJgBhILQIz4MDB7QELC/cRaEq3sKkJJsyBQwPn2GH+ADR8i6ihibYQvdzMhSEW2vgEWFrm3AP1rD0h1rfAVhMzy9gTsBmqMdUdt8OEW6AWujvWtLDEfCOvFt1y3I6VCq7smWFNKVV1jFeVUut5rb4LTAVHMAU6/2UePgSwC0wsRhPH2CuwnefKU2BLf2nwnRCYx8IfmH8IH/PgIfQzyss8aAhgZBF4BxIBP9FzTRhJAgwt6ROPI0wsuziUkEvA4NdTrL1CEbc19wsDoCQlR8A5MM7SUHQ9jbVWpAoUMOATyaD7tBwBWYgAAAAASUVORK5CYII=');
+    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
 }
 
 .h400{
@@ -265,10 +265,11 @@ div#MapBar{
     margin-top:15px;
 }
 div#MapInfoWindow{
-    width:150px;
+    width:180px;
     padding:10px;
     text-align:center;
     font-size:15px!important;
+    font-family:'Cantarell',Tahoma, Arial, helvetica;
 }
 .left{float:left;}
 .right{float:right;}
@@ -279,4 +280,86 @@ div#MapInfoWindow{
 }
 table tr{
     padding:15px!important;
+}
+/* bloky se sporty */
+.box_wrapper{
+    padding-top:1px;
+    margin-top:10px;
+}
+#SkiBox,#SnbBox,#CCSkiBox{
+    position:relative;
+    border:1px solid white;
+    border-radius: 10px;
+    width:100%;
+    height:620px;
+    margin:15px 0px;
+    padding:7.5px;
+}
+#SkiBox .inner_sport_box_top,#SnbBox .inner_sport_box_top,#CCSkiBox .inner_sport_box_top{
+    position:absolute;
+    right:0;
+    top:20px;
+    margin-right:20px;
+    background-color:rgba(0,0,100,0.5);
+    border:1px solid rgb(0,0,170);
+    border-radius:10px;
+    color:white!important;
+    padding:5px 10px;
+}
+#SkiBox .inner_sport_box_bottom,#SnbBox .inner_sport_box_bottom,#CCSkiBox .inner_sport_box_bottom{
+    position:absolute;
+    right:0;
+    bottom:0;
+    margin-bottom:20px;
+    margin-right:20px;
+    background-color:rgba(0,0,100,0.5);
+    border:1px solid rgb(0,0,170);
+    border-radius:10px;
+    color:white!important;
+    padding:5px 10px;
+}
+#SkiBox h1,#SnbBox h1,#CCSkiBox h1{
+    text-align:left;
+    margin-left:15px;
+    color:white!important;
+}
+#SkiBox h2,#SnbBox h2,#CCSkiBox h2{
+    text-align:center;
+    color:white!important;
+    margin:0px 0px 5px 0px;
+    text-transform: none;
+    font-size:24px;
+}
+#SkiBox a,#SnbBox a,#CCSkiBox a{
+    color:white!important;
+    text-decoration: underline!important;
+}
+#SkiBox a:hover,#SnbBox a:hover,#CCSkiBox a:hover{
+    text-decoration: none!important;
+}
+#SkiBox li,#SnbBox li,#CCSkiBox li{
+    list-style: square;
+    margin-left:30px;
+}
+#SkiBox ul,#SnbBox ul,#CCSkiBox ul{
+    margin-top:10px;
+}
+#SkiBox{
+    background-image:url('../img/skibackground.png');
+}
+#SnbBox{
+    background-image:url('../img/snbbackground.png');
+}
+#CCSkiBox{
+    background-image:url('../img/ccskibackground.png');
+}
+.arrow{
+    font-size:280px;
+    text-align: center;
+    height:160px;
+    cursor:pointer!important;
+    z-index: -1;
+}
+.first_arrow{
+    margin-top:80px;
 }

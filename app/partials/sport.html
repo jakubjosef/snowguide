@@ -1,1 +1,74 @@
-<p>This is the partial for view 1.</p>
+<div data-ng-init='initFavoriteResorts()'><br/>
+    <h1 class="text-center">Naše tipy</h1><br/>
+    <p class='text-center'>Připravily jsme pro vás tipy na střediska, pokud jste lyžař, snowboardista a nebo raději preferujete běžky.</p>
+    <p class="text-center">Pokračujte kliknutím na šipku</p>
+    <div class='clear'></div>
+    <div class="arrow first_arrow" data-ng-click="scrollTo('ski');">&#8595;</div>
+    <div id="ski" class="box_wrapper">
+        <div id="SkiBox">
+            <h1>Lyžování</h1>
+            <div class="inner_sport_box_top">
+                <h2>Oblíbená střediska</h2>
+                Podívejte se která střediska se nejvíce líbila našim lyžařům.
+                <ul>
+                    <li data-ng-repeat='favoriteSkiResort in favoriteSkiResorts'><a href="#/resort/{{favoriteSkiResort._id}}">{{favoriteSkiResort.name}}</a></li>
+                </ul>
+            </div>
+            <div class="inner_sport_box_bottom">
+                <h2>Lyžařské závody</h2>
+                <p>Myslíte si že umíte dobře lyžovat?<br/>
+                    Chcete svoje výkony poměřit s ostatními? <br/>
+                    Tato střediska provozují závody pro veřejnost.</p>
+                <ul>
+                    <li data-ng-repeat='favoriteSkiRace in favoriteSkiRaces'><a href="#/resort/{{favoriteSkiRace._id}}">{{favoriteSkiRace.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="arrow" data-ng-click="scrollTo('snb');">&#8595;</div>
+    <div id="snb" class="box_wrapper">
+        <div id="SnbBox">
+            <h1>Snowboarding</h1>
+            <div class="inner_sport_box_top">
+                <h2>Oblíbená střediska</h2>
+                Podívejte se která střediska se nejvíce líbila našim snowboadistům
+                <ul>
+                    <li data-ng-repeat='favoriteSnbResort in favoriteSnbResorts'><a href="#/resort/{{favoriteSnbResort._id}}">{{favoriteSnbResort.name}}</a></li>
+
+                </ul>
+            </div>
+            <div class="inner_sport_box_bottom">
+                <h2>Nejlepší snowparky</h2>
+                <p>Chcete vědět kde mají nejlépe připravené snowparky?<br/>
+                    Kde mají perfektně připravené raily a velké skoky? <br/>
+                    Naši uživatelé vybrali tato střediska:</p>
+                <ul>
+                    <li data-ng-repeat='favoriteSnbPark in favoriteSnbParks'><a href="#/resort/{{favoriteSnbPark._id}}">{{favoriteSnbPark.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="arrow" data-ng-click="scrollTo('ccski');">&#8595;</div>
+    <div id="ccski" class="box_wrapper">
+        <div id="CCSkiBox">
+            <h1>Běžky</h1>
+            <div class="inner_sport_box_top">
+                <h2>Běžkařské trasy</h2>
+                Nevíte jakou běžkařskou trasu, přínásíme vám několik tipů
+                <ul>
+                    <li data-ng-repeat='favoriteCCSkiResort in favoriteCCSkiResorts'><a href="#/resort/{{favoriteCCSkiResort._id}}">{{favoriteCCSkiResort.name}}</a></li>
+                </ul>
+            </div>
+            <div class="inner_sport_box_bottom">
+                <h2>Vemte sebou svoje děti</h2>
+                <p>Chcete vzít tvoje děti také na běžky?<br/>
+                    Existují běžkařské trasy určené i pro děti. <br/>
+                    Trasy jsou většinou kratšího charakteru, ale jsou většinou situovány v krásné krajině.</p>
+                <ul>
+                    <li data-ng-repeat='favoriteCCSkiKidResort in favoriteCCSkiKidResorts'><a href="#/resort/{{favoriteCCSkiKidResort._id}}">{{favoriteCCSkiKidResort.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class='arrow first_arrow' data-ng-click='scrollTo()'>&#8593;</div>
+</div>

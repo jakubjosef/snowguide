@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 require 'vendor/autoload.php';
+require 'services/base.php';
 
 $app = new Application();
 $app['debug'] = true;
@@ -18,7 +19,11 @@ $app['mountains'] = function() {
   require "services/mountains.php";
   return new MountainsService();
 };
-
+//test api
+$app->get('/api/test',function(){
+   new BaseService(); //this throw exception and 500 error automatically
+   return new Response("",200); //otherwise we return 200
+});
 //get all resorts
 $app->get('/api/resorts', function(Request $req) use ($app) {
     $result = $app['resorts']->findAll($req->query->all());

@@ -1,6 +1,6 @@
 <?php
 class BaseService{
-	protected $db;
+	protected $db=null;
 
 	const DB_HOST="localhost";
 	const DB_NAME="snowguide";

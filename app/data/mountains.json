@@ -1,8 +1,9 @@
-[
-{"name":"Špindl","snow":"70","state":"open"},
-{"name":"Černá hora","snow":"100","state":"open"},
-{"name":"Pec","snow":"30","state":"open"},
-{"name":"Sedloňov","snow":"0","state":"close"}
-
-
-]
+{ "_id" : 1, "name" : "Krkonoše" }
+{ "_id" : 2, "name" : "Orlické hory" }
+{ "_id" : 3, "name" : "Šumava" }
+{ "_id" : 4, "name" : "Jeseníky" }
+{ "_id" : 5, "name" : "Beskydy" }
+{ "_id" : 6, "name" : "Jizerské hory" }
+{ "_id" : 7, "name" : "Vysočina" }
+{ "_id" : 8, "name" : "Krušné hory" }
+{ "_id" : 9, "name" : "Kralický Sněžník" }

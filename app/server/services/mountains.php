@@ -1,7 +1,5 @@
 <?php
 
-require "base.php";
-
 class MountainsService extends BaseService {
 
     public function findAll(){
