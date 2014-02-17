@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('snowguide.controllers', []).
-  controller('AppCtrl',['$scope','$rootScope','$http','$location','$anchorScroll',function($scope,$rootScope,$http,$location,$anchorScroll){
+  controller('AppCtrl',['$scope','$rootScope','$http','$location','$anchorScroll','AppDirectory',function($scope,$rootScope,$http,$location,$anchorScroll,appDirectory){
   		$scope.pages=[
   			{url:"home",name:"Domů",style:1},
   			{url:"sport",name:"Naše tipy",style:2},
@@ -62,7 +62,7 @@ angular.module('snowguide.controllers', []).
                    $anchorScroll();
                 };
 
-                $http.get('/api/test').error(function(){
+                $http.get('api/test').error(function(){
                    $scope.noDBConnection=true;
                 });
   }])

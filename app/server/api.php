@@ -1,5 +1,6 @@
 <?php
 //api.php
+const APP_DIRECTORY="";
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,20 +21,20 @@ $app['mountains'] = function() {
   return new MountainsService();
 };
 //test api
-$app->get('/api/test',function(){
+$app->get(APP_DIRECTORY.'/api/test',function(){
    new BaseService(); //this throw exception and 500 error automatically
    return new Response("",200); //otherwise we return 200
 });
 //get all resorts
-$app->get('/api/resorts', function(Request $req) use ($app) {
+$app->get(APP_DIRECTORY.'/api/resorts', function(Request $req) use ($app) {
     $result = $app['resorts']->findAll($req->query->all());
   return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
 });
-$app->get('/api/resorts/{id}',function($id) use ($app){
+$app->get(APP_DIRECTORY.'/api/resorts/{id}',function($id) use ($app){
   $result=$app['resorts']->find($id);
   return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
 });
-$app->get('api/mountains',function(Request $reg) use ($app){
+$app->get(APP_DIRECTORY.'/api/mountains',function(Request $reg) use ($app){
     $result = $app['mountains']->findAll();
     return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
 });
