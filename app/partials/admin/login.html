@@ -1,0 +1,13 @@
+<form ua-login class="w400 container box1" role="form" action="">
+	<h1 class="normalcase text-center">Administrace</h1>
+	<div class="form-group">
+	<input name="login" placeholder="Login" class="form-control"><br>
+	<input name="password" placeholder="Heslo" type="password" class="form-control"><br>
+	<p><button type="submit" class="btn btn-default btn-lg btn-block">Přihlásit</button></p>
+	</div>
+	<p ng-show="loading" class="text-center"><img src="https://app.userapp.io/img/ajax-loader-transparent.gif"></p>
+	<p ng-show="error" class="text-center red">{{ error.message }}</p>
+</form>
+
+<!--<p><a href="#/admin/signup">Sign up</a></p>
+<p><a href="#/admin/reset-password">Reset password</a></p>-->

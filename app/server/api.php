@@ -20,9 +20,16 @@ $app['mountains'] = function() {
   require "services/mountains.php";
   return new MountainsService();
 };
+
+$app->before(function (Request $request) {
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace(is_array($data) ? $data : array());
+    }
+});
 //test api
 $app->get(APP_DIRECTORY.'/api/test',function(){
-   new BaseService(); //this throw exception and 500 error automatically
+   new BaseService(true); //this throw exception and 500 error automatically
    return new Response("",200); //otherwise we return 200
 });
 //get all resorts
@@ -34,9 +41,19 @@ $app->get(APP_DIRECTORY.'/api/resorts/{id}',function($id) use ($app){
   $result=$app['resorts']->find($id);
   return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
 });
+//create or update
+$app->post(APP_DIRECTORY.'/api/resorts/{id}',function($id,Request $reg) use ($app){
+  $result=$app['resorts']->createOrUpdate($id,$reg->request->all());
+  return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
+});
 $app->get(APP_DIRECTORY.'/api/mountains',function(Request $reg) use ($app){
-    $result = $app['mountains']->findAll();
+    $result = $app['mountains']->findAll($reg->query->all());
     return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
+});
+//create or update
+$app->post(APP_DIRECTORY.'/api/mountains/{id}',function($id,Request $reg) use ($app){
+  $result=$app['mountains']->createOrUpdate($id,$reg->request->all());
+  return new Response(json_encode($result),200,array("Content-Type" => "application/json; charset=UTF-8"));
 });
 /*
 //create new book

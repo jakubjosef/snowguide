@@ -1,10 +1,20 @@
 <div data-ng-init="initResortDetail()" data-ng-show="initStates.resortDetail===true">
     <h4 class="text-center"><span data-ng-show="resort.ccresort">Běžecká trasa: </span>{{resort.name}}</h4><br/>
     <div class="col-2">
-        <img data-ng-show="resort.image" class="center-block" src="img/resorts/{{resort.image}}" alt="Fotografie střediska"/>
-        <div data-ng-hide="resort.image" class="center-block"><h4 class="normalcase text-center margin100">Omlouváme se,<br/> ale obrázek střediska není k dispozici</h3></div>
+        <div data-ng-show="resort.photos">
+            <carousel interval="carouselInterval">
+                <slide ng-repeat="photo in resort.photos">
+                  <img ng-src="{{photo.src}}" style="margin:auto;">
+                  <div class="carousel-caption">
+                    <h4>{{resort.name}}</h4>
+                    <p>{{photo.text}}</p>
+                  </div>
+                </slide>
+            </carousel>
+        </div>
+        <div data-ng-hide="resort.photos" class="center-block"><h4 class="normalcase text-center margin100">Omlouváme se,<br/> ale žádný obrázek střediska není k dispozici</h3></div>
     </div>
-    <div class="col-1">
+    <div class="col-1 marginOnlyLeft20">
         <table id="ResortTable">
             <tr data-ng-hide="resort.ccresort">
                 <td>
@@ -70,11 +80,12 @@
             </tr>
             <tr data-ng-show="resort.www">
                 <td colspan="2" class="text-center">
-                    <a href="{{resort.www}}">{{removeProtocolFromURL(resort.www)}}</a>
+                    <a target='_blank' href="{{resort.www}}">{{removeProtocolFromURL(resort.www)}}</a>
                 </td>
             </tr>
         </table>
     </div>
+    <div class="clear"></div>
 </div>
 <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="lightbox" >
     <a href="#"><div id="LightboxCloser"></div></a>

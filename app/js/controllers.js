@@ -3,14 +3,15 @@
 /* Controllers */
 
 angular.module('snowguide.controllers', []).
-  controller('AppCtrl',['$scope','$rootScope','$http','$location','$anchorScroll','AppDirectory',function($scope,$rootScope,$http,$location,$anchorScroll,appDirectory){
-  		$scope.pages=[
-  			{url:"home",name:"Domů",style:1},
-  			{url:"sport",name:"Naše tipy",style:2},
-  			{url:"resorts",name:"Střediska",style:3},
-  			{url:"map",name:"Mapa",style:5},
-  			{url:"contact",name:"Kontakt",style:4}
-  		];
+  controller('AppCtrl',['$scope','$rootScope','$http','$location','$anchorScroll','user',function($scope,$rootScope,$http,$location,$anchorScroll,user){
+            		$.pnotify.defaults.history = false;
+                $scope.pages=[
+            			{url:"home",name:"Domů",style:1},
+            			{url:"sport",name:"Naše tipy",style:2},
+            			{url:"resorts",name:"Střediska",style:3},
+            			{url:"map",name:"Mapa",style:5},
+            			{url:"contact",name:"Kontakt",style:4}
+            		];
                 $scope.initChosen=function(reinit){
                     var config = {
                         '.chosen-select'           : {},
@@ -65,6 +66,23 @@ angular.module('snowguide.controllers', []).
                 $http.get('api/test').error(function(){
                    $scope.noDBConnection=true;
                 });
+                //login handling
+                $rootScope.$on('user.login', function() {
+                   $.pnotify({
+                      title: 'Uživatel přihlášen',
+                      text: 'Uživatel '+user.current.login+' byl úspěšně přihlášen',
+                      type: 'success'
+                   });
+                });
+                //logout handling
+                $rootScope.$on('user.logout',function(){
+                  $location.path("");
+                  $.pnotify({
+                      title: 'Uživatel odhlášen',
+                      text: 'Odhlášení proběhlo úspěšně',
+                      type: 'success'
+                   });
+                });
   }])
   .controller('HomeCtrl', ['$scope','Resorts',function($scope,Resorts) {
   	//home
@@ -85,7 +103,7 @@ angular.module('snowguide.controllers', []).
            getData:function($defer,params){
              Resorts.query(params.url(),function(data){
                 $timeout(function(){
-                  $defer.resolve(cleanData(data));
+                  $defer.resolve(cleanResourceData(data));
                 },50);
              });
            }
@@ -99,7 +117,8 @@ angular.module('snowguide.controllers', []).
         });
     };
     $scope.initResortDetail=function(){
-        Resorts.get({resortID:$routeParams.resortID},function(value){
+        $scope.carouselInterval=5000;
+        Resorts.get({id:$routeParams.resortID},function(value){
             $scope.resort=value;
             $scope.initStates.resortDetail=true;
         });
@@ -108,7 +127,7 @@ angular.module('snowguide.controllers', []).
          $scope.lightboxBody="partials/lightboxes/"+type+".html";
     };
     $scope.removeProtocolFromURL=function(url){
-        return url.replace(/^http:\/\//, '');
+        return url && url.replace(/^http:\/\//, '');
     };
   }])
   .controller('SportCtrl', ['$scope','$routeParams','Resorts', function($scope,$routeParams,Resorts) {
@@ -119,26 +138,26 @@ angular.module('snowguide.controllers', []).
 
              }
              Resorts.favorite({favoriteSkiResorts:true},function(data){
-                $scope.favoriteSkiResorts=cleanData(data);
+                $scope.favoriteSkiResorts=cleanResourceData(data);
              });
              Resorts.favorite({favoriteSkiRaces:true},function(data){
-                $scope.favoriteSkiRaces=cleanData(data);
+                $scope.favoriteSkiRaces=cleanResourceData(data);
              });
              Resorts.favorite({favoriteSnbResorts:true},function(data){
-                $scope.favoriteSnbResorts=cleanData(data);
+                $scope.favoriteSnbResorts=cleanResourceData(data);
              });
              Resorts.favorite({favoriteSnbParks:true},function(data){
-                $scope.favoriteSnbParks=cleanData(data);
+                $scope.favoriteSnbParks=cleanResourceData(data);
              });
              Resorts.favorite({favoriteCCSkiResorts:true},function(data){
-                $scope.favoriteCCSkiResorts=cleanData(data);
+                $scope.favoriteCCSkiResorts=cleanResourceData(data);
              });
              Resorts.favorite({favoriteCCSkiKidResorts:true},function(data){
-                $scope.favoriteCCSkiKidResorts=cleanData(data);
+                $scope.favoriteCCSkiKidResorts=cleanResourceData(data);
              });
        };
   }])
-  .controller('MapCtrl',['$scope','$timeout','Resorts','Mountains','usSpinnerService',function($scope,$timeout,Resorts,Mountains,usSpinnerService){
+  .controller('MapCtrl',['$scope','$timeout','Resorts','Mountains','usSpinnerService','$window',function($scope,$timeout,Resorts,Mountains,usSpinnerService,$window){
        var mapBarID="MapBar",
             loadMap=function(mapBarID,mapParams){
                  var resortParams={
@@ -151,7 +170,7 @@ angular.module('snowguide.controllers', []).
                  usSpinnerService.spin("spinner-1");
                  $scope.mapLoading=true;
                  Resorts.byMountains(resortParams,function(data){
-                     $scope.map=$scope.initMap(mapBarID,cleanData(data));
+                     $scope.map=$scope.initMap(mapBarID,cleanResourceData(data));
                      usSpinnerService.stop("spinner-1");
                      $scope.mapLoading=false;
                      if(!$scope.showCheckboxes){
@@ -187,13 +206,21 @@ angular.module('snowguide.controllers', []).
         });
         $scope.firstLoadMap=function(){
             Resorts.favorite(function(resorts){
-                $scope.map=$scope.initMap(mapBarID,cleanData(resorts));
+                $scope.map=$scope.initMap(mapBarID,cleanResourceData(resorts));
                 usSpinnerService.stop("spinner-1");
                 $scope.mapLoading=false;
             });
         };
+        //watch to Google Maps api load, then first init map
+        $scope.$watch(function(){
+            return $window.mapsApiLoaded;
+        },function(apiState){
+            if(apiState===true){
+                $scope.firstLoadMap();
+            }
+        });
         Mountains.query(function(data){
-            $scope.mountains=cleanData(data);
+            $scope.mountains=cleanResourceData(data);
             $timeout(function(){
                 $scope.initChosen();
             },200);
@@ -206,9 +233,135 @@ angular.module('snowguide.controllers', []).
             //alert('');
             //alert(angular.toJson($scope.resortRequest));
         };
+  }]).
+  controller('AdminCtrl',['$scope','$rootScope','$location','$window','Resorts','Mountains','user','usSpinnerService',function($scope,$rootScope,$location,$window,Resorts,Mountains,user,usSpinnerService){
+      var initFunctions={
+          resorts: function(noClearForm){
+            var params={"sorting[name]":"desc",plain:true};
+            if(user.current.authenticated){
+                params.provider=user.current.user_id;
+            }
+            Resorts.query(params,function(data){
+              $scope.resorts=cleanResourceData(data);
+              if(!noClearForm){
+                $scope.clearForm();
+              }
+            });
+          },
+          mountains: function(noClearForm){
+            var params={};
+            if(user.current.authenticated){
+                params.provider=user.current.user_id;
+            }
+            Mountains.query(function(data){
+              $scope.mountains=cleanResourceData(data);
+              if(!noClearForm){
+                $scope.clearForm();
+              }
+            });
+          }
+      },
+      checkPermissions=function(permission,successFn,errorFn){
+        // check permissions
+           UserApp.User.hasPermission({
+                 user_id: "self",
+                 permission: [permission]
+                 }, function(error, result){
+                 if (result.missing_permissions.length > 0) {
+                     if(typeof errorFn === 'function'){
+                         errorFn(error);
+                     }
+                 } else {
+                     if(typeof successFn === 'function'){
+                         successFn();
+                     }
+                 }
+           });
+      }
+      ;
+      if(user.current.authenticated){
+        $location.path("admin/index");
+      }
+      $scope.showUsersTab=false;
+      $scope.fillTab=function(tabName){
+          if(typeof tabName === 'undefined'){
+              alert('fillTab: tabName is undefined!');
+          }
+          checkPermissions("admin",function(){
+                  $scope.$apply(function(){
+                     $scope.userLevel="admin";
+                     initFunctions[tabName]();
+                     $scope.adminInited=true;
+                     $scope.firstTabHeading="Všechna střediska";
+                     $scope.showUsersTab=true;
+                  });
+              },
+              function(){
+                    $scope.userLevel="user";
+                    initFunctions[tabName]();
+                    $scope.adminInited=true;
+                    $scope.firstTabHeading="Moje střediska";
+                  });
+      };
+      $scope.clearForm = function(){
+          $scope.editingObject={};
+      };
+      $scope.add=function(type){
+          var addFn=function(response){
+            $scope.editingObject={_id:response._id};
+            if(user.current.authenticated && !isAdmin(user.current)){
+                $scope.editingObject.provider=user.current.user_id;
+            }
+          };
+          eval(type.capitalize()+".nextId({},addFn)");
+      };
+      $scope.edit=function(data){
+        $scope.editingObject=cleanObject(data);
+      };
+      $scope.save=function(type,data){
+        var successFn=function(response){
+              if(response.ok!==1){
+                  return failFn();
+              }
+              alert('Uloženo');
+              initFunctions[type](true);
+              usSpinnerService.stop("spinner-1");
+              $scope.formLoading=false;
+            },
+            failFn=function(){
+              alert('Došlo k chybě při uložení');
+              usSpinnerService.stop("spinner-1");
+              $scope.formLoading=false;
+            };
+         if(user.current.authenticated){
+             data.provider=user.current.user_id;
+         }
+        $scope.formLoading=true;
+        usSpinnerService.spin("spinner-1");
+        //call save api function from service depending on type
+        eval(type.capitalize()+".save({id:data._id},data,successFn,failFn);");
+      };
+      $scope.switchPage=function(page){
+          $scope.usersPage="partials/admin/"+page+".html";
+      };
   }]);
-function cleanData($resourceDataObject){
+function cleanResourceData($resourceDataObject){
     delete $resourceDataObject.$promise;
     delete $resourceDataObject.$resolved;
     return $resourceDataObject;
+}
+function cleanObject($object){
+  var returnObject={};
+  for (var property in $object){
+    if(property.charAt(0)!=='$'){
+      returnObject[property]=$object[property];
+    }
+  }
+  return returnObject;
+}
+function mapsApiLoaded(){
+    window.mapsApiLoaded=true;
+}
+function isAdmin(user){
+    return user.permissions.admin.value;
 }

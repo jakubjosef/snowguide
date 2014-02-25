@@ -1,0 +1,14 @@
+<h2 class="normalcase">Registrace</h2>
+
+<form ua-signup ng-show="!verificationEmailSent">
+	<input class="form-control w200" name="first_name" placeholder="Jméno"><br>
+	<input class="form-control w200" name="login" ua-is-email placeholder="Email"><br>
+	<input class="form-control w200" name="password" placeholder="Heslo" type="password"><br>
+	<input class="form-control w200" name="password" placeholder="Znovu heslo" type="password"><br>
+	<p><button class="btn btn-default"type="submit">Registrovat</button>
+
+	<p ng-show="loading"><img src="https://app.userapp.io/img/ajax-loader-transparent.gif"></p>
+	<p ng-show="error">{{ error.message }}</p>
+</form>
+
+<p ng-show="verificationEmailSent">Na váš email byl zaslán odkaz, klepněte na něj pro aktivaci svého účtu.</p>

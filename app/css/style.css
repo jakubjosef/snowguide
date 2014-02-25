@@ -83,7 +83,7 @@ ul, ol {list-style:none}
 .list li a {color:#092972;text-decoration:none}
 .list li a:hover {text-decoration:underline}
 /* */
-.list1 li {background:url(../img/icon4.gif) no-repeat left top;padding:0 0 0 86px;min-height:70px;height:auto!important;height:70px;margin-top:24px}
+.list1 li {padding:0 0 0 86px;min-height:70px;height:auto!important;height:70px;margin-top:24px}
 .list1 li b {display:block;padding-bottom:6px}
 .list1 li b a {color:#092972;text-decoration:none}
 .list1 li b a:hover {text-decoration:underline}
@@ -139,7 +139,92 @@ h4 {font-size:1em;color:#092972;margin-bottom:25px}
 #footer {height:88px;background:#f5f8ff;color:#000}
 #footer .indent {padding:37px 102px 0 30px}
 #footer img {position:relative;top:-4px}
-
+/* pnotify */
+/* -- Notice */
+.ui-pnotify {
+top: 25px;
+right: 25px;
+position: absolute;
+height: auto;
+/* Ensures notices are above everything */
+z-index: 9999;
+}
+/* Hides position: fixed from IE6 */
+html > body .ui-pnotify {
+position: fixed;
+}
+.ui-pnotify .ui-pnotify-shadow {
+-webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+-moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+}
+.ui-pnotify-container {
+background-position: 0 0;
+padding: .8em;
+height: 100%;
+margin: 0;
+}
+.ui-pnotify-sharp {
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+border-radius: 0;
+}
+.ui-pnotify-closer, .ui-pnotify-sticker {
+float: right;
+margin-left: .2em;
+}
+.ui-pnotify-title {
+display: block;
+margin-bottom: .4em;
+}
+.ui-pnotify-text {
+display: block;
+}
+.ui-pnotify-icon, .ui-pnotify-icon span {
+display: block;
+float: left;
+margin-right: .2em;
+}
+/* -- History Pulldown */
+.ui-pnotify-history-container {
+position: absolute;
+top: 0;
+right: 18px;
+width: 70px;
+border-top: none;
+padding: 0;
+-webkit-border-top-left-radius: 0;
+-moz-border-top-left-radius: 0;
+border-top-left-radius: 0;
+-webkit-border-top-right-radius: 0;
+-moz-border-top-right-radius: 0;
+border-top-right-radius: 0;
+/* Ensures history container is above notices. */
+z-index: 10000;
+}
+.ui-pnotify-history-container .ui-pnotify-history-header {
+padding: 2px;
+}
+.ui-pnotify-history-container button {
+cursor: pointer;
+display: block;
+width: 100%;
+}
+.ui-pnotify-history-container .ui-pnotify-history-pulldown {
+display: block;
+margin: 0 auto;
+}
+.ui-pnotify .picon {
+background-color: transparent;
+background-repeat: no-repeat;
+background-position: center center;
+width: 17px;
+height: 17px;
+}
+.ui-pnotify-title {
+line-height: 17px;
+min-height: 17px;
+}
 .loading-container {
     position: relative;
 }
@@ -226,6 +311,7 @@ h4 {font-size:1em;color:#092972;margin-bottom:25px}
 .lightbox.lightbox-active{
     display: inline-block;
     opacity: 1;
+    z-index: 9999;
 }
 .lightboxBody{
     padding:15px 10px 15px 10px;
@@ -257,7 +343,13 @@ div#LightboxCloser{
     margin:100px;
 }
 .marginLeft10{
-    margin-left:10px;
+    margin-left:10px!important;
+}
+.marginOnlyLeft20{
+    margin: 0px 0px 0px 20px!important;
+}
+.nomargin{
+    margin:0!important;
 }
 div#MapBar{
     width:100%;
@@ -362,4 +454,16 @@ table tr{
 }
 .first_arrow{
     margin-top:80px;
+}
+.tabBody{
+    margin-top:10px;
+    min-height: 200px;
+}
+.tabMenu{
+    margin-top:5px;
+    padding:5px;
+    border-left:1px solid #DDD;
+    border-bottom:1px solid #DDD;
+    border-right:1px solid #DDD;
+    border-radius: 5px;
 }

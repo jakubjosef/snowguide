@@ -1,0 +1,49 @@
+<div data-ng-show="adminInited">
+<h4 class="normalcase text-center">Snowguide administrace - Přihlášen {{user.login}} jako {{userLevel}}</h4>
+
+ <tabset justified="true">
+    <tab heading="{{firstTabHeading}}" select="fillTab('resorts')">
+        <div class="tabMenu"><a href="" data-ng-click="add('resorts')">Přidat středisko</a></div>
+    	<div class="tabBody">
+	    	<div class="row">
+	  			<div class="col-md-6">
+		  			<ul>
+		    			<li data-ng-repeat="resort in resorts">
+		    		  		<a href="" data-ng-click="edit(resort)">{{resort.name}}</a>
+		    			</li>
+		    		</ul>
+	    		</div>
+	  			<div class="col-md-6" data-loading-container="formLoading" data-us-spinner data-spinner-key="spinner-1">
+	  				<object-form object="editingObject" on-save="save('resorts',data)" protected-property="_id,provider" ></object-form>
+	  			</div>
+			</div>
+    	</div>
+    </tab>
+    <tab heading="Pohoří" select="fillTab('mountains')">
+        <div class="tabMenu text-center"><a href="" data-ng-click="add('mountains')">Přidat pohoří</a></div>
+    	<div class="tabBody">
+	    	<div class="col-md-6">
+		    	<ul>
+		    		<li data-ng-repeat="mountain in mountains">
+		    		  <a href="" data-ng-click="edit(mountain)">{{mountain.name}}</a>
+		    		</li>
+		    	</ul>
+	    	</div>
+	    	<div class="col-md-6">
+		  		<object-form object="editingObject" on-save="save('mountains',data)" protected-property="_id,provider"></object-form>
+		  	</div>
+	  	</div>
+    </tab>
+    <tab heading="Uživatelé" select="fillTab('users')" disabled="!showUsersTab">
+        <div class="text-right tabMenu"><a href="" data-ng-click="switchPage('signup')">Registrovat nového uživatele</a> | <a href="" data-ng-click="switchPage('reset-password')">Resetovat heslo</a></div>
+    <div class="tabBody" data-ng-include="usersPage">
+
+    </div>
+    </tab>
+  </tabset>
+</div>
+<div data-ng-hide="adminInited">
+    <h4 class="normalcase text-center">Načítám administraci</h4>
+</div>
+
+

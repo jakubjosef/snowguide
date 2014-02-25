@@ -1,3 +1,4 @@
+ <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDiDZ8Al2c2mzMdbSLli9DlJIYaEf-Tx3E&callback=mapsApiLoaded"></script>
 <div>
     Vyberte pohoří: &nbsp;<select id="ResortsMapSelect" multiple data-placeholder="Nejoblíbenější střediska" class="chosen-select-no-single" style="width:350px;" tabindex="2" data-ng-model="selectedMountains">
         <option></option>
@@ -11,6 +12,6 @@
     </span>
 </div>
 <div data-loading-container="mapLoading" data-us-spinner data-spinner-key="spinner-1" data-spinner-start-active="1">
-    <div id="MapBar" data-ng-init="firstLoadMap()">
+    <div id="MapBar">
     </div>
 </div>

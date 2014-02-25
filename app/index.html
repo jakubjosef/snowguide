@@ -15,7 +15,7 @@
         <link href="lib/flowplayer/player.css" rel="stylesheet" type="text/css" />
         <link href="lib/chosen/chosen.min.css" rel="stylesheet" type="text/css" />
          <script type="text/javascript" src="lib/jquery.js"></script>
-         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyDiDZ8Al2c2mzMdbSLli9DlJIYaEf-Tx3E"></script>
+         <script src="https://app.userapp.io/js/userapp.client.js"></script>
          <script>
     // include angular loader, which allows the files to load in any order
 
@@ -43,12 +43,16 @@ License: MIT
     $script([
       'lib/flowplayer/flowplayer.js',
       'lib/chosen/chosen.jquery.min.js',
+      'lib/jquery.pnotify.min',
       'lib/angular/angular.js',
       'lib/angular/angular-route.js',
       'lib/angular/angular-resource.js',
       'lib/angular/ng-table/ng-table.js',
+      'lib/angular/angular-objectform.js',
+      'lib/angular/ui-bootstrap.js',
       'lib/spin/spin.min.js',
       'lib/spin/angular-spinner.js',
+      'lib/angularjs.userapp.js',
       'js/app.js',
       'js/services.js',
       'js/controllers.js',
@@ -66,7 +70,7 @@ License: MIT
         </div>
         <div id="main">
             <!-- HEADER -->
-            <div id="header">
+            <div id="header" data-ng-hide="loggedIn">
                 <div class="logo"><a href="#"><img src="img/logo.png" alt="" /></a></div>
                 <div class="banner-list">
                     <ul>
@@ -92,7 +96,12 @@ License: MIT
                 <div class="indent">
                     <div class="fleft">
                         Snowguide v<span data-app-version></span><br/>
-                        Copyright &copy; 2014 Jakub Josef</div>
+                        Copyright &copy; 2014 Jakub Josef<br/>
+                        <a href="#/admin" data-ng-hide="user.authenticated">Přihlásit</a>
+                        <span data-ng-show="user.authenticated">
+                        <a href="#/admin/index">Administrace</a>
+                        |&nbsp;<a href="#" data-ua-logout>Odhlásit</a></span>
+                    </div>
                 </div>
             </div>
         </div>

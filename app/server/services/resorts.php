@@ -1,13 +1,28 @@
 <?php
 class ResortsService extends BaseService{
-	public function find($id){
-		$resorts=$this->db->resorts;
+        protected $collectionName="resorts";
+        public function find($id){
+                $resorts=$this->db->{$this->collectionName};
 		$resort=$resorts->findOne(array("_id" => (int)$id));
 		return $resort;
 	}
 	public function findAll($params){
-		$resorts=$this->db->resorts;
+                $resorts=$this->db->{$this->collectionName};
+                if(isset($params["nextId"]) && $params["nextId"]){
+                    //get next resort id
+                     $cursor=$resorts->find(array(),array("_id"=>true))->sort(array("_id"=>-1))->limit(1);
+                     return array("_id" => $cursor->getNext()["_id"]+1);
+                }
                 $queryParams=array();
+                if(isset($params["provider"]) && $params["provider"]!=="")
+                {   $isAdmin = parent::isUserAdmin($this->usersApi->user->hasPermission(array(
+                            "user_id" => $params["provider"],
+                            "permission" => array("admin")
+                    )));
+                    if(!$isAdmin){
+                        $queryParams["provider"]=$params["provider"];
+                    }
+                }
                 if(isset($params["filter"]) && is_array($params["filter"])){
                     //filtr
                     $filterNames=array_keys($params["filter"]);
@@ -63,7 +78,7 @@ class ResortsService extends BaseService{
                 }
                 $resortsArray=array();
                 foreach($cursor as $resort){
-                    if(isset($resort["mountains"])){
+                    if(!isset($params["plain"]) && isset($resort["mountains"])){
                         //namapujeme pohoří
                         $mountains=$this->db->mountains;
                         $mountain=$mountains->findOne(array("_id" => $resort["mountains"]));
