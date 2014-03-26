@@ -6,14 +6,18 @@
     var userappModule = angular.module('UserApp', []);
 
     // Expose the UserApp API
-    userappModule.value('UserApp', UserApp);
+    if(typeof UserApp !== 'undefined'){
+        userappModule.value('UserApp', UserApp);
+    }else{
+        throw new Error("UserApp API is not available, please verify your Internet connection!");
+    }
 
     // Directive error handler
     var handleError = function(scope, error, elementId) {
         if (!error) {
             return;
         }
-        
+
         error.handled = false;
 
         if (elementId) {
@@ -65,7 +69,7 @@
             // This is not the correct $state service
             $state = null;
         }
-        
+
         if (!$state && !$route) {
             $log.warn('The UserApp module needs either ng-route or ui-router to work as expected.');
         }
@@ -93,7 +97,7 @@
         // Controller for the verify email route
         var verifyEmailController = function($scope, $location) {
             $scope.loading = true;
-            
+
             var emailToken = $location.search().email_token;
             service.verifyEmail(emailToken, function(error, result) {
                 if (error) {
@@ -174,7 +178,7 @@
                                 transitionTo(loginRoute);
                             });
                         } else if ((!toState.data || (toState.data && toState.data.hasPermission)) && that.current.permissions) {
-                            if (!that.hasPermission(toState.data.hasPermission)) { 
+                            if (!that.hasPermission(toState.data.hasPermission)) {
                                 safeApply($rootScope, function() {
                                     transitionTo(defaultRoute, true);
                                 });
@@ -197,7 +201,7 @@
                                 transitionTo(loginRoute);
                             });
                         } else if (data.$$route && data.$$route.hasPermission && that.current.permissions) {
-                            if (!that.hasPermission(data.$$route.hasPermission)) { 
+                            if (!that.hasPermission(data.$$route.hasPermission)) {
                                 safeApply($rootScope, function() {
                                     transitionTo(defaultRoute);
                                 });
@@ -253,7 +257,7 @@
                     appId = value;
                     UserApp.setAppId(appId);
                 }
-                
+
                 return appId;
             },
 
@@ -271,7 +275,7 @@
                     // Set session cookie
                     Kaka.set('ua_session_token', token);
                 }
-                
+
                 return token;
             },
 
@@ -304,7 +308,7 @@
                     // Check permissions for this route
                     if ($state) {
                         if ($state.$current && $state.$current.data && $state.$current.data.hasPermission) {
-                            if (!that.hasPermission($state.$current.data.hasPermission)) { 
+                            if (!that.hasPermission($state.$current.data.hasPermission)) {
                                 safeApply($rootScope, function() {
                                     transitionTo(defaultRoute, true);
                                 });
@@ -312,7 +316,7 @@
                         }
                     } else if ($route) {
                         if ($route.current && $route.current.$$route.hasPermission) {
-                            if (!that.hasPermission($route.current.$$route.hasPermission)) { 
+                            if (!that.hasPermission($route.current.$$route.hasPermission)) {
                                 safeApply($rootScope, function() {
                                     transitionTo(defaultRoute);
                                 });
@@ -489,10 +493,10 @@
         };
 
         // Extend the current user with hasPermission() and hasFeature()
-        angular.extend(user, { 
+        angular.extend(user, {
             hasPermission: function(permissions) {
                 return service.hasPermission(permissions);
-            }, 
+            },
             hasFeature: function(features) {
                 return service.hasFeature(features);
             }
@@ -591,7 +595,7 @@
                             }
                         }
                     }
-                    
+
                     // Sign up
                     user.signup(object, function(error, result) {
                         if (error) {
@@ -619,7 +623,7 @@
             }
         };
     });
-    
+
     // Reset password directive
     userappModule.directive('uaResetPassword', function($rootScope, user) {
         return {
@@ -721,7 +725,7 @@
                     var scopes = 'uaOauthScopes' in attrs ? (attrs.uaOauthScopes || '').split(',') : null;
                     var defaultRedirectUrl = window.location.protocol+'//'+window.location.host+window.location.pathname+'#/oauth/callback/';
                     var redirectUri = 'uaOauthRedirectUri' in attrs ? attrs.uaOauthRedirectUri : defaultRedirectUrl;
-                    
+
                     UserApp.OAuth.getAuthorizationUrl({ provider_id: providerId, redirect_uri: redirectUri, scopes: scopes }, function(error, result){
                         if (error) {
                             safeApply(scope, function() {

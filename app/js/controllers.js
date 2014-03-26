@@ -263,6 +263,7 @@ angular.module('snowguide.controllers', []).
       },
       checkPermissions=function(permission,successFn,errorFn){
         // check permissions
+        if(typeof UserApp !== 'undefined'){
            UserApp.User.hasPermission({
                  user_id: "self",
                  permission: [permission]
@@ -277,6 +278,9 @@ angular.module('snowguide.controllers', []).
                      }
                  }
            });
+        }else{
+            throw new Error("UserApp nedostupne!");
+        }
       }
       ;
       if(user.current.authenticated){
